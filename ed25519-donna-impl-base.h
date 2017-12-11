@@ -238,7 +238,6 @@ ge25519_unpack_negative_vartime(ge25519 *r, const unsigned char p[32]) {
 	return 1;
 }
 
-
 /*
 	scalarmults
 */

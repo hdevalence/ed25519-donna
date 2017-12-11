@@ -31,7 +31,7 @@ ed25519_extsk(hash_512bits extsk, const ed25519_secret_key sk) {
 	extsk[31] |= 64;
 }
 
-static void
+void
 ed25519_hram(hash_512bits hram, const ed25519_signature RS, const ed25519_public_key pk, const unsigned char *m, size_t mlen) {
 	ed25519_hash_context ctx;
 	ed25519_hash_init(&ctx);

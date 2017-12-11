@@ -23,6 +23,9 @@ void ed25519_randombytes_unsafe(void *out, size_t count);
 
 void curved25519_scalarmult_basepoint(curved25519_key pk, const curved25519_key e);
 
+typedef unsigned char hash_512bits[64];
+void ed25519_hram(hash_512bits hram, const ed25519_signature RS, const ed25519_public_key pk, const unsigned char *m, size_t mlen);
+
 #if defined(__cplusplus)
 }
 #endif
