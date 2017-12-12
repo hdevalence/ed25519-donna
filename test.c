@@ -237,12 +237,17 @@ test_main(void) {
 		curved25519_scalarmult_basepoint(csk[(i & 1) ^ 1], csk[i & 1]);
 	edassert_equal(curved25519_expected, csk[0], sizeof(curved25519_key), "curve25519 failed to generate correct value");
 
+	uint64_t decompressticks = maxticks;
 	uint64_t scmulticks = maxticks;
 
 	ge25519 ALIGN(16) R, A;
 	hash_512bits hash;
 	bignum256modm hram, S;
-	ge25519_unpack_negative_vartime(&A, pk);
+
+	for (i = 0; i < 2048; i++) {
+		timeit(ge25519_unpack_negative_vartime(&A, pk), decompressticks);
+	}
+
 	ed25519_hram(hash, sig, pk, (unsigned char *)dataset[0].m, 0);
 	expand256_modm(hram, hash, 64);
 	expand256_modm(S, sig + 32, 32);
@@ -261,6 +266,7 @@ test_main(void) {
 		timeit(curved25519_scalarmult_basepoint(csk[1], csk[0]), curvedticks);
 	}
 
+	printf("%.0f ticks/decompression\n", (double)decompressticks);
 	printf("%.0f ticks/double base scmul\n", (double)scmulticks);
 
 	printf("%.0f ticks/public key generation\n", (double)pkticks);
